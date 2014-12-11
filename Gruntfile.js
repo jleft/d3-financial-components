@@ -126,5 +126,5 @@ module.exports = function (grunt) {
     grunt.registerTask('build', ['check', 'concat:dist', 'uglify:dist', 'concat_css:all', 'cssmin:dist']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
-    grunt.registerTask('travis', ['build', 'doc']);
+    grunt.registerTask('default', ['build', 'doc']);
 };
