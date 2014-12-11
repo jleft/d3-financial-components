@@ -1,4 +1,4 @@
-# D3 Financial Components [![Build Status](https://travis-ci.org/jleft/d3-financial-components.svg?branch=travis)](https://travis-ci.org/jleft/d3-financial-components)
+# D3 Financial Components [![Build Status](https://travis-ci.org/jleft/d3-financial-components.svg?branch=travis)](https://travis-ci.org/jleft/d3-financial-components) [![Build status](https://ci.appveyor.com/api/projects/status/ew0ra4uwf857chne?svg=true)](https://ci.appveyor.com/project/jleft/d3-financial-components)
 
 We are building a set of re-usable [D3](http://d3js.org) components that make it simple to create complex financial charts.
 
