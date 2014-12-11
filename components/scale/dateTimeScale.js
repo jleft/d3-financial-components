@@ -22,7 +22,7 @@
     * @memberof fc.scale.dateTime
     * @param {d3.scale.linear} linear used in the copy constructor to copy the base linear
     * scale between the original and the copy.
-    * @param {array[2]} baseDomain used in the copy constructor to copy the base domain (Max
+    * @param {array[]} baseDomain used in the copy constructor to copy the base domain (Max
     * and Min) between the original and the copy.
     * @param {boolean} alignPixels used in the copy constructor to copy the pixel alignment
     * option between the original and the copy.
@@ -65,7 +65,7 @@
         * values denoted by this scale (Max. and Min.).
         *
         * @memberof fc.scale.dateTime
-        * @param {array[2]} domain the real world domain value as an array of 2 date objects,
+        * @param {array[]} domain the real world domain value as an array of 2 date objects,
         * Min and Max respectively.
         * @returns the current domain is no arguments are passed.
         */
