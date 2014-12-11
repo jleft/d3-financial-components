@@ -19,11 +19,11 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - npm install -g grunt-cli
   - npm install
-  - npm uninstall grunt
 
 test_script:
   - node --version
   - npm --version
+  - grunt --version
   - ps: grunt --no-color  # PowerShell
   - cmd: grunt --no-color
 
