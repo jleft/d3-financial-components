@@ -11,6 +11,9 @@
         var defaultWidth = true,
             defaultHeight = true;
 
+        // The elements created for the charts
+        var chartElements = {};
+
         var chartLayout = function(selection) {
             // Select the first element in the selection
             // If the selection contains more than 1 element,
@@ -44,14 +47,15 @@
             }
 
             // Create svg
-            var svg = d3.select(element).append('svg')
+            chartElements.svg = d3.select(element).append('svg')
                 .attr('width', width)
                 .attr('height', height);
 
             // Create group for the chart
-            var chart = svg.append('g')
+            var chart = chartElements.svg.append('g')
                 .attr('class', 'chartArea')
                 .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            chartElements.chartArea = chart;
 
             // Clipping path
             chart.append('defs').append('clipPath')
@@ -60,30 +64,33 @@
                 .attr({width: chartLayout.innerWidth(), height: chartLayout.innerHeight()});
 
             // Create a background element
-            chart.append('rect')
+            chartElements.plotAreaBackground = chart.append('rect')
                 .attr('class', 'background')
                 .attr('width', chartLayout.innerWidth())
                 .attr('height', chartLayout.innerHeight());
 
             // Create plot area, using the clipping path
-            chart.append('g')
+            chartElements.plotArea = chart.append('g')
                 .attr('clip-path', 'url(#plotAreaClip)')
                 .attr('class', 'plotArea');
 
             // Create containers for the axes
-            chart.append('g')
+            chartElements.axisContainer = {};
+            chartElements.axisContainer.bottom = chart.append('g')
                 .attr('class', 'axis bottom')
                 .attr('transform', 'translate(0,' + chartLayout.innerHeight() + ')');
-            chart.append('g')
+
+            chartElements.axisContainer.top = chart.append('g')
                 .attr('class', 'axis top')
                 .attr('transform', 'translate(0, 0)');
-            chart.append('g')
+
+            chartElements.axisContainer.left = chart.append('g')
                 .attr('class', 'axis left')
                 .attr('transform', 'translate(0, 0)');
-            chart.append('g')
+
+            chartElements.axisContainer.right = chart.append('g')
                 .attr('class', 'axis right')
                 .attr('transform', 'translate(' + chartLayout.innerWidth() + ', 0)');
-
         };
 
         chartLayout.marginTop = function(value) {
@@ -144,24 +151,24 @@
             return height - margin.top - margin.bottom;
         };
 
-        chartLayout.getSVG = function(setupArea) {
-            return setupArea.select('svg');
+        chartLayout.getSVG = function() {
+            return chartElements.svg;
         };
 
-        chartLayout.getChartArea = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select('.chartArea');
+        chartLayout.getChartArea = function() {
+            return chartElements.chartArea;
         };
 
-        chartLayout.getPlotArea = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select('.plotArea');
+        chartLayout.getPlotArea = function() {
+            return chartElements.plotArea;
         };
 
-        chartLayout.getAxisContainer = function(setupArea, orientation) {
-            return chartLayout.getSVG(setupArea).select('.axis.' + orientation);
+        chartLayout.getAxisContainer = function(orientation) {
+            return chartElements.axisContainer[orientation];
         };
 
-        chartLayout.getPlotAreaBackground = function(setupArea) {
-            return chartLayout.getSVG(setupArea).select('.chartArea rect.background');
+        chartLayout.getPlotAreaBackground = function() {
+            return chartElements.plotAreaBackground;
         };
 
         return chartLayout;
