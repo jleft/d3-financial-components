@@ -49,7 +49,7 @@
         .datum(data)
         .call(ohlc);
 
-    // Create the Bollinger bands component
+    // Create the moving average component
     var movingAverage = fc.indicators.movingAverage()
         .xScale(dateScale)
         .yScale(priceScale)

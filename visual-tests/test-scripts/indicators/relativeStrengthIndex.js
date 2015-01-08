@@ -38,7 +38,7 @@
     chartLayout.getAxisContainer('bottom').call(dateAxis);
     chartLayout.getAxisContainer('right').call(priceAxis);
 
-    // Create the Bollinger bands component
+    // Create the RSI component
     var rsi = fc.indicators.rsi()
         .xScale(dateScale)
         .yScale(priceScale)
