@@ -54,43 +54,34 @@
         .xScale(dateScale)
         .yScale(priceScale);
 
-    // var annotation102 = fc.tools.annotation()
-    //     .xScale(dateScale)
-    //     .yScale(priceScale)
-    //     .yValue(102);
-
-    // var annotationDecimal = fc.tools.annotation()
-    //     .xScale(dateScale)
-    //     .yScale(priceScale)
-    //     .yValue(100.675)
-    //     .decorate(function(selection) {
-    //         selection.selectAll('line')
-    //             .style('stroke', 'red');
-    //         selection.selectAll('text')
-    //             .attr('x', dateScale.range()[1] - 20);
-    //     })
-    //     .formatLabel(function(d) { return d3.format('.3f')(d); });
+    var annotationDecimal = fc.tools.annotation()
+        .xScale(dateScale)
+        .yScale(priceScale)
+        .yValue(100.675)
+        .decorate(function(selection) {
+            selection.selectAll('line')
+                .style('stroke', 'red');
+            selection.selectAll('text')
+                .attr('x', dateScale.range()[1] - 20);
+        })
+        .formatLabel(function(d) { return d3.format('.3f')(d); });
 
     // Add it to the chart
     chartLayout.getPlotArea()
         .append('g')
         .attr('id', 'annotation100')
-        .datum([100, 102])
+        .datum(100)
         .call(annotation100);
 
-    // chartLayout.getPlotArea()
-    //     .append('g')
-    //     .attr('id', 'annotation102')
-    //     .call(annotation102);
+    chartLayout.getPlotArea()
+        .append('g')
+        .attr('id', 'annotationDecimal')
+        .datum([100.675])
+        .call(annotationDecimal);
 
-    // chartLayout.getPlotArea()
-    //     .append('g')
-    //     .attr('id', 'annotationDecimal')
-    //     .call(annotationDecimal);
-
-    // // Update an annotation
-    // annotationDecimal.yValue(101.675);
-    // chartLayout.getPlotArea().select('#annotationDecimal')
-    //     .call(annotationDecimal);
+    // Update an annotation
+    chartLayout.getPlotArea().select('#annotationDecimal')
+        .datum([101.675])
+        .call(annotationDecimal);
 
 })(d3, fc);

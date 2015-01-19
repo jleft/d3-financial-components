@@ -10,31 +10,26 @@
                     y = annotation.yScale.value,
                     yValue = annotation.yValue.value;
 
-                var container = fc.utilities.simpleDataJoin(d3.select(this), 'annotation', data);
+                var container = d3.select(this);
 
-                var line = container.selectAll('line.marker').data(data);
+                var g = fc.utilities.simpleDataJoin(container, 'annotation', data);
 
-                line.enter().append('line')
+                var enter = g.enter();
+                enter.append('line')
                     .attr('class', 'marker');
+                enter.append('text')
+                    .attr('class', 'callout');
 
-                line.attr('x1', x.range()[0])
+                g.select('line.marker').attr('x1', x.range()[0])
                     .attr('y1', function(d) { return y(yValue(d)); })
                     .attr('x2', x.range()[1])
                     .attr('y2', function(d) { return y(yValue(d)); });
 
-                line.exit().remove();
 
-                // var label = container.selectAll('text.callout').data(data);
-
-                // label.enter().append('text')
-                //     .attr('class', 'callout');
-
-                // label.attr('x', x.range()[1])
-                //     .attr('y', y(yValue))
-                //     .attr('style', 'text-anchor: end;')
-                //     .text(annotation.formatLabel.value(yValue));
-
-                // label.exit().remove();
+                g.select('text.callout').attr('x', x.range()[1])
+                    .attr('y', function(d) { return y(yValue(d)); })
+                    .attr('style', 'text-anchor: end;')
+                    .text(annotation.formatLabel.value);
 
                 annotation.decorate.value(container);
             });
@@ -42,13 +37,9 @@
         };
 
         annotation.xScale = fc.utilities.property(d3.time.scale());
-
         annotation.yScale = fc.utilities.property(d3.scale.linear());
-
         annotation.yValue = fc.utilities.functorProperty(fc.utilities.fn.identity);
-
-        annotation.formatLabel = fc.utilities.property(d3.scale.linear());
-
+        annotation.formatLabel = fc.utilities.functorProperty(fc.utilities.fn.identity);
         annotation.decorate = fc.utilities.property(fc.utilities.fn.noop);
 
         return annotation;
