@@ -27,6 +27,28 @@ module.exports = function (grunt) {
             ]
         },
 
+        assemble: {
+            options: {
+                flatten: true,
+                // prettify: {
+                //   indent: 2,
+                //   condense: true,
+                //   newlines: true
+                //   
+                //   
+                //   
+                // },
+                // assets: 'visual-tests/site/assets',
+                // helpers: 'templates/helpers/*.js',
+                partials: 'visual-tests/src/framework/templates/includes/*.hbs',
+                layoutdir: 'visual-tests/src/framework/templates/layouts',
+                layout: 'default.hbs'
+            },
+            visualTests: {
+                files: {'visual-tests/site/' : ['visual-tests/src/fixtures/*.hbs']}
+            }
+        },
+
         concat: {
             options: {
                 sourceMap: false
@@ -152,6 +174,7 @@ module.exports = function (grunt) {
     });
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.loadNpmTasks('assemble');
 
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
