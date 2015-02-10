@@ -12,8 +12,10 @@ html {
 }
 
 body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+  color: #222;
   background-color: #fff;
-  font-family: sans-serif;
   max-width: 980px;
   margin: 0 auto;
   padding: 10px 20px;
@@ -23,4 +25,11 @@ h3 {
     background-color: #111;
     color: #eee;
     padding: 0.5em;
+}
+
+iframe {
+  width: 100%;
+  max-width: 940px;
+  height: 500px;
+  border: 1px solid #888;
 }

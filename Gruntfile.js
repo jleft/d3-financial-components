@@ -29,23 +29,23 @@ module.exports = function (grunt) {
 
         assemble: {
             options: {
+                expand: true,
                 flatten: true,
                 // prettify: {
                 //   indent: 2,
                 //   condense: true,
                 //   newlines: true
-                //   
-                //   
-                //   
                 // },
                 // assets: 'visual-tests/site/assets',
                 // helpers: 'templates/helpers/*.js',
                 partials: 'visual-tests/src/framework/templates/includes/*.hbs',
-                layoutdir: 'visual-tests/src/framework/templates/layouts',
-                layout: 'default.hbs'
+                layoutdir: 'visual-tests/src/framework/templates/layouts'
             },
             visualTests: {
-                files: {'visual-tests/site/' : ['visual-tests/src/fixtures/*.hbs']}
+                files: {'visual-tests/site/' : ['visual-tests/src/framework/index.hbs', 'visual-tests/src/fixtures/**/*.hbs']},
+                options: {
+                    layout: 'test.hbs'
+                }
             }
         },
 
@@ -183,5 +183,7 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);
+    grunt.registerTask('test', ['jasmine:test', 'visual-tests']);
+    grunt.registerTask('visual-tests', ['assemble:visualTests']);
     grunt.registerTask('default', ['build', 'doc']);
 };
