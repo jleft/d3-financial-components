@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                 'tests/**/*Spec.js'
             ],
             visualTestJsFiles: [
-                'visual-tests/**/*.js'
+                // 'visual-tests/**/*.hbs'
             ],
             componentsCssFiles: [
                 'components/**/*.css'
