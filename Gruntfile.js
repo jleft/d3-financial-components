@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                 'tests/**/*Spec.js'
             ],
             visualTestJsFiles: [
-                // 'visual-tests/**/*.hbs'
+                // 'visual-tests/**/*.js'
             ],
             componentsCssFiles: [
                 'components/**/*.css'
@@ -29,22 +29,27 @@ module.exports = function (grunt) {
 
         assemble: {
             options: {
-                expand: true,
-                flatten: true,
-                // prettify: {
-                //   indent: 2,
-                //   condense: true,
-                //   newlines: true
-                // },
-                // assets: 'visual-tests/site/assets',
-                // helpers: 'templates/helpers/*.js',
-                partials: 'visual-tests/src/framework/templates/includes/*.hbs',
-                layoutdir: 'visual-tests/src/framework/templates/layouts'
+                assets: 'visual-tests/dist/assets',
+                partials: 'visual-tests/src/site/templates/includes/*.hbs',
+                layoutdir: 'visual-tests/src/site/templates/layouts'
             },
             visualTests: {
-                files: {'visual-tests/site/' : ['visual-tests/src/framework/index.hbs', 'visual-tests/src/fixtures/**/*.hbs']},
+                files : [
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/site/pages/',
+                        src: ['index.hbs'],
+                        dest: 'visual-tests/dist/'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/test-fixtures/',
+                        src: ['**/*.hbs'],
+                        dest: 'visual-tests/dist/'
+                    }
+                ],
                 options: {
-                    layout: 'test.hbs'
+                    layout: 'test.hbs',helpers: ['handlebars-helper-md']
                 }
             }
         },
@@ -56,6 +61,43 @@ module.exports = function (grunt) {
             dist: {
                 src: ['components/fc.js', 'components/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
+            }
+        },
+
+        copy: {
+            visualTests: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/site/assets/',
+                        src: ['**/*.js', '**/*.css', 'node_modules/d3/d3.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/d3/',
+                        src: ['d3.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/css-layout/src/',
+                        src: ['Layout.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'dist',
+                        src: ['d3-financial-components.js', 'd3-financial-components.css'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/test-fixtures/',
+                        src: ['**/*', '!**/*.hbs'],
+                        dest: 'visual-tests/dist/',
+                    },
+                ]
             }
         },
 
@@ -169,7 +211,8 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            doc: ['doc']
+            doc: ['doc'],
+            visualTests: ['visual-tests/dist']
         }
     });
 
@@ -184,6 +227,7 @@ module.exports = function (grunt) {
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'visual-tests']);
-    grunt.registerTask('visual-tests', ['assemble:visualTests']);
+    grunt.registerTask('visual-tests', ['build', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
+    grunt.registerTask('vt', ['visual-tests']);
     grunt.registerTask('default', ['build', 'doc']);
 };

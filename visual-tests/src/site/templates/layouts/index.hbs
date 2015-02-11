@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{> header }}
+    <link href="{{assets}}/style.css" rel="stylesheet">
+    <script src="{{assets}}/knockout-3.2.0.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>D3FC Visual Tests</h1>
+        <label id="menu-option">
+          <input type="checkbox" id="displayExamples" checked> show test visuals?
+        </label>
+      </div>
+    </header>
+
+    <section id="main" class="container">
+
+      <section class="hero">
+        {{> body }}
+      </section>
+
+      {{#withSort pages "data.title"}}
+        {{#unless data.exclude}}
+          <h2> <a href="{{ relative ../../page.dest this.dest }}">{{ data.title }}</a></h2>
+          {{#if data.description}}<p>{{ data.description }}</p>{{/if}}
+          {{#if data.readme}}<p>{{ data.readme }}</p>{{/if}}
+          {{{md 'data.readme'}}}
+          <iframe src="{{ relative ../../page.dest this.dest }}" ></iframe>
+          <hr>
+        {{/unless}}
+      {{/withSort}}
+    </section>
+
+    <footer>
+      {{> footer }}
+      <script src="{{assets}}/main.js"></script>
+    </footer>
+  </body>
+</html>
