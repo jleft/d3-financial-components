@@ -14,7 +14,7 @@ module.exports = function (grunt) {
                 'tests/**/*Spec.js'
             ],
             visualTestJsFiles: [
-                'visual-tests/**/*.js'
+                'visual-tests/src/**/*.js'
             ],
             componentsCssFiles: [
                 'components/**/*.css'
@@ -22,8 +22,36 @@ module.exports = function (grunt) {
             ourJsFiles: [
                 '<%= meta.componentsJsFiles %>',
                 '<%= meta.testJsFiles %>',
-                '<%= meta.visualTestJsFiles %>'
+                '<%= meta.visualTestJsFiles %>',
+                '!components/utilities/csslayout.js'
             ]
+        },
+
+        assemble: {
+            options: {
+                assets: 'visual-tests/dist/assets',
+                partials: 'visual-tests/src/site/templates/includes/*.hbs',
+                layoutdir: 'visual-tests/src/site/templates/layouts'
+            },
+            visualTests: {
+                files : [
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/site/pages/',
+                        src: ['index.hbs'],
+                        dest: 'visual-tests/dist/'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/test-fixtures/',
+                        src: ['**/*.hbs'],
+                        dest: 'visual-tests/dist/'
+                    }
+                ],
+                options: {
+                    layout: 'test.hbs'
+                }
+            }
         },
 
         concat: {
@@ -33,6 +61,43 @@ module.exports = function (grunt) {
             dist: {
                 src: ['components/fc.js', 'components/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
+            }
+        },
+
+        copy: {
+            visualTests: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/site/assets/',
+                        src: ['**/*.js', '**/*.css', 'node_modules/d3/d3.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/d3/',
+                        src: ['d3.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/css-layout/src/',
+                        src: ['Layout.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'dist',
+                        src: ['d3-financial-components.js', 'd3-financial-components.css'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'visual-tests/src/test-fixtures/',
+                        src: ['**/*', '!**/*.hbs'],
+                        dest: 'visual-tests/dist/',
+                    },
+                ]
             }
         },
 
@@ -100,7 +165,8 @@ module.exports = function (grunt) {
 
         jshint: {
             options: {
-                jshintrc: true
+                jshintrc: true,
+                extract: true
             },
             failOnError: {
                 files: {
@@ -129,7 +195,10 @@ module.exports = function (grunt) {
         jasmine: {
             options: {
                 specs: '<%= meta.testJsFiles %>',
-                vendor: 'node_modules/d3/d3.js'
+                vendor: [
+                    'node_modules/d3/d3.js',
+                    'http://d3js.org/d3.v3.js'
+                ]
             },
             test: {
                 src: ['<%= meta.componentsJsFiles %>'],
@@ -143,11 +212,13 @@ module.exports = function (grunt) {
         },
 
         clean: {
-            doc: ['doc']
+            doc: ['doc'],
+            visualTests: ['visual-tests/dist']
         }
     });
 
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    grunt.loadNpmTasks('assemble');
 
     grunt.registerTask('check:failOnError', ['jshint:failOnError', 'jscs:failOnError']);
     grunt.registerTask('check:warnOnly', ['jshint:warnOnly', 'jscs:warnOnly']);
@@ -156,5 +227,8 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);
+    grunt.registerTask('test', ['jasmine:test', 'visual-tests']);
+    grunt.registerTask('visual-tests', ['build', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
+    grunt.registerTask('vt', ['visual-tests']);
     grunt.registerTask('default', ['build', 'doc']);
 };

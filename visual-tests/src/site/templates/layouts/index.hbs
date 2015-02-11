@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{> header }}
+    <link href="{{assets}}/style.css" rel="stylesheet">
+  </head>
+  <body>
+  {{> index-page-header }}
+
+    <div id="main" class="container">
+      <section class="hero">
+        {{> body }}
+      </section>
+      <section id="tests">
+        {{> index-test-list }}
+      </section>
+    </div>
+
+    <footer>
+      {{> footer }}
+      <script src="{{assets}}/index.js"></script>
+    </footer>
+  </body>
+</html>
