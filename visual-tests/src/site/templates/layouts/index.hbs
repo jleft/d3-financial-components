@@ -5,15 +5,24 @@
     <link href="{{assets}}/style.css" rel="stylesheet">
   </head>
   <body>
-  {{> index-page-header }}
+    {{> index-page-header }}
 
     <div id="main" class="container">
+
       <section class="hero">
         {{> body }}
       </section>
+
+      <section id="tags">
+        <p>Filter by selecting a tag:</p>
+        {{> index-tag-filter }}
+        <hr>
+      </section>
+
       <section id="tests">
         {{> index-test-list }}
       </section>
+      
     </div>
 
     <footer>
