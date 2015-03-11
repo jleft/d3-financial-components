@@ -1,8 +1,14 @@
 {{#withSort pages "data.title"}}
-  {{#unless data.exclude}}
+  {{#unless data.notATest}}
     <article data-tags="{{ data.tags }}">
         <h2>
-          <a href="{{ relative ../../page.dest this.dest }}">{{ data.title }}</a>
+          <a href="{{ relative ../../page.dest this.dest }}">
+          {{#if data.title}}
+            {{ titleize data.title }}
+          {{else}}
+            <span style="color:red">Please add a title of this test</span>
+          {{/if}}
+          </a>
         </h2>
         
         {{#withSort data.tags}}
@@ -13,7 +19,7 @@
           <p>{{ data.description }}</p>
         {{/if}}
 
-        <iframe src="{{ relative ../../page.dest this.dest }}" ></iframe>
+        <iframe src="{{ relative ../../page.dest this.dest }}"></iframe>
         <hr>
     </article>
   {{/unless}}
