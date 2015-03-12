@@ -1,5 +1,11 @@
 {{#withSort tags "tag"}}
-  <label class="tag">
+{{!--   <label class="tag">
     <input name="{{ tag }}" value="{{ tag }}" type="checkbox">{{ tag }}
   </label>
+ --}}
+  <div class="btn-group" data-toggle="buttons">
+    <label class="btn btn-primary">
+      <input type="checkbox" autocomplete="off" name="{{ tag }}" value="{{ tag }}">{{ tag }}
+    </label>
+  </div>
 {{/withSort}}

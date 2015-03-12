@@ -1,6 +1,30 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
-html {
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding-top: 70px;
+}
+
+iframe {
+  width: 100%;
+  max-width: 940px;
+  height: 472px;
+  border: 0;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+.label {
+  display: inline-block;
+}
+
+/*html {
   box-sizing: border-box;
 }
 
@@ -127,3 +151,4 @@ iframe {
   cursor: pointer;
   background-color: #0066cc;
 }
+*/

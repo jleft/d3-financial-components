@@ -1,6 +1,8 @@
 {{#withSort pages "data.title"}}
   {{#unless data.notATest}}
-    <article data-tags="{{ data.tags }}">
+    <article id="{{ basename }}"
+      data-tags="{{ data.tags }}"
+      data-visuals="{{ relative ../../page.dest this.dest }}">
         <h2>
           <a href="{{ relative ../../page.dest this.dest }}">
           {{#if data.title}}
@@ -9,17 +11,21 @@
             <span style="color:red">Please add a title of this test</span>
           {{/if}}
           </a>
+          <small class="pull-right">
+            {{#withSort data.tags}}
+              <span class="label label-primary">{{.}}</span>
+            {{/withSort}}
+          </small>
         </h2>
         
-        {{#withSort data.tags}}
-          <span class="tag">{{.}}</span>
-        {{/withSort}}
-
         {{#if data.description}}
           <p>{{ data.description }}</p>
         {{/if}}
 
-        <iframe src="{{ relative ../../page.dest this.dest }}"></iframe>
+{{!--         <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item"></iframe>
+        </div> --}}
+        <iframe></iframe>
         <hr>
     </article>
   {{/unless}}

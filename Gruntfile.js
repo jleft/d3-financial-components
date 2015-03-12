@@ -61,16 +61,26 @@ module.exports = function (grunt) {
             dist: {
                 src: ['components/fc.js', 'components/utilities/*.js', '<%= meta.componentsJsFiles %>'],
                 dest: 'dist/<%= pkg.name %>.js'
+            },
+            visualTests: {
+                options: {
+                    sourceMap: true
+                },
+                src: 'visual-tests/src/site/assets/js/**/*.js',
+                dest: 'visual-tests/dist/assets/index.js',
             }
         },
 
         copy: {
             visualTests: {
+                options: {
+
+                },
                 files: [
                     {
                         expand: true,
-                        cwd: 'visual-tests/src/site/assets/',
-                        src: ['**/*.js', '**/*.css', 'node_modules/d3/d3.js'],
+                        cwd: 'visual-tests/src/site/assets/css',
+                        src: ['**/*.css'],
                         dest: 'visual-tests/dist/assets/',
                     },
                     {
@@ -93,10 +103,22 @@ module.exports = function (grunt) {
                     },
                     {
                         expand: true,
+                        cwd: 'node_modules/bootstrap/dist/',
+                        src: ['**'],
+                        dest: 'visual-tests/dist/assets/bootstrap/',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/jquery/dist/',
+                        src: ['jquery.min.js'],
+                        dest: 'visual-tests/dist/assets/',
+                    },
+                    {
+                        expand: true,
                         cwd: 'visual-tests/src/test-fixtures/',
                         src: ['**/*', '!**/*.hbs'],
                         dest: 'visual-tests/dist/',
-                    },
+                    }
                 ]
             }
         },
@@ -228,7 +250,7 @@ module.exports = function (grunt) {
     grunt.registerTask('doc', ['clean:doc', 'jsdoc']);
     grunt.registerTask('ci', ['default']);
     grunt.registerTask('test', ['jasmine:test', 'visual-tests']);
-    grunt.registerTask('visual-tests', ['build', 'clean:visualTests', 'copy:visualTests', 'assemble:visualTests']);
+    grunt.registerTask('visual-tests', ['build', 'clean:visualTests', 'copy:visualTests', 'concat:visualTests', 'assemble:visualTests']);
     grunt.registerTask('vt', ['visual-tests']);
     grunt.registerTask('default', ['build', 'doc']);
 };
