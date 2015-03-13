@@ -1,32 +1,53 @@
-{{#withSort pages "data.title"}}
-  {{#unless data.notATest}}
-    <article id="{{ basename }}"
-      data-tags="{{ data.tags }}"
-      data-visuals="{{ relative ../../page.dest this.dest }}">
-        <h2>
-          <a href="{{ relative ../../page.dest this.dest }}">
-          {{#if data.title}}
-            {{ titleize data.title }}
-          {{else}}
-            <span style="color:red">Please add a title of this test</span>
-          {{/if}}
-          </a>
-          <small class="pull-right">
-            {{#withSort data.tags}}
-              <span class="label label-primary">{{.}}</span>
-            {{/withSort}}
-          </small>
-        </h2>
-        
-        {{#if data.description}}
-          <p>{{ data.description }}</p>
-        {{/if}}
+{{#withSort categories}}
+  <section id="{{category}}">
+  <h1 class="page-header">{{ titleize category }}</h1>
+    {{#withSort pages "data.title"}}
+        {{#unless data.notATest}}
 
-{{!--         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item"></iframe>
-        </div> --}}
-        <iframe></iframe>
-        <hr>
-    </article>
-  {{/unless}}
+
+        <article id="{{ basename }}"
+          class="test-fixture"
+          data-tags="{{ data.tags }}"
+          data-visuals="{{ relative ../../../page.dest this.dest }}">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <a href="{{ relative ../../../page.dest this.dest }}">
+
+                {{#if data.title}}
+                  {{ data.title }}
+                {{else}}
+                  <span style="color:red">Please add a title of this test</span>
+                {{/if}}
+                </a>
+                <span class="pull-right">
+                  {{#withSort data.tags}}
+                    <span class="label label-primary">{{.}}</span>
+                  {{/withSort}}
+                </span>
+              </h3>
+            </div>
+
+            <div class="panel-body">
+              {{#if data.description}}
+                <p>{{ data.description }}</p>
+              {{/if}}
+              <iframe></iframe>
+            </div>
+
+          </div>
+            
+    {{!--         {{#if data.description}}
+              <p>{{ data.description }}</p>
+            {{/if}}
+
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item"></iframe>
+            </div>
+            <iframe></iframe> --}}
+        </article>
+      {{/unless}}
+    {{/withSort}}
+  </section>
 {{/withSort}}

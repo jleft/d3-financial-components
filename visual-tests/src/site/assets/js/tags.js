@@ -1,4 +1,4 @@
-(function(d3, $) {
+(function(d3) {
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -49,9 +49,9 @@
             }
         };
 
-        $('#tags label').on('click', function() {
-            console.log('change');
-        });
+        // $('#tags label').on('click', function() {
+        //     console.log('change');
+        // });
 
         tagsCheckboxes.on('change', tagFilterChange);
 

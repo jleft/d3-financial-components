@@ -3,7 +3,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        var tests = d3.selectAll('#tests > article')
+        var tests = d3.selectAll('#tests .test-fixture')
             .datum(function() {
                 return this.dataset;
             });
@@ -12,7 +12,7 @@
         var showTestVisuals = function() {
             tests.each(function(d) {
                 var test = d3.select(this);
-                test = test.selectAll('iframe').data([0]);
+                test = test.select('.panel-body').selectAll('iframe').data([0]);
                 test.enter().append('iframe');
                 test.exit().remove();
                 test.attr('src', d.visuals);

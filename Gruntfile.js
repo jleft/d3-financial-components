@@ -110,7 +110,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         cwd: 'node_modules/jquery/dist/',
-                        src: ['jquery.min.js'],
+                        src: ['jquery.min.*'],
                         dest: 'visual-tests/dist/assets/',
                     },
                     {

@@ -7,29 +7,42 @@
   <body>
     {{> index-page-header }}
 
-    <div class="jumbotron">
-      <div class="container">
-        <h1>D3 Visual Tests</h1>
-      </div>
-    </div>
-
     <div id="main" class="container">
       <div class="row">
-        <div class="col-md-12">
-      
+
+        <div class="col-md-10">
           {{> body }}
 
-          <section id="tags">
+{{!--           <section id="tags">
             <p>Filter by selecting a tag:</p>
             {{> index-tag-filter }}
             <hr>
-          </section>
+          </section> --}}
 
           <section id="tests">
             {{> index-test-list }}
           </section>
 
         </div>
+
+        <div class="col-md-2 hidden-xs hidden-sm hidden-print">
+          <nav class="sidebar-nav">
+            <ul class="nav sidenav">
+              {{#withSort categories}}
+                <li><a href="#{{ category }}">{{ titleize category }}</a>
+                <ul class="nav">
+                {{#withSort pages "data.title"}}
+                  {{#unless data.notATest}}
+                  <li><a href="#{{ basename }}">{{ data.title }}</a></li>
+                  {{/unless}}
+                {{/withSort}}
+                </ul>
+                </li>
+              {{/withSort}}
+            </ul>
+          </nav>
+        </div>
+
       </div>
     </div>
 
