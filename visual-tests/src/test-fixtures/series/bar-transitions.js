@@ -25,22 +25,23 @@
         .attr('width', width)
         .attr('height', height);
 
-    var axisContainer = chart.append('g')
-        .attr('class', 'axis')
-        .attr('transform', 'translate(0, ' + (height - axisHeight) + ')');
-
     // Create scales
     var xScale = d3.scale.ordinal()
         .domain(data.map(function(d) { return d.name; }))
         .rangePoints([0, width], 1);
 
     var yScale = d3.scale.linear()
-        .domain([-40, 40])
+        .domain([-50, 50])
         .range([height - axisHeight, 0]);
 
     var colour = d3.scale.linear()
         .domain([-50, 50])
         .range(['blue', 'red']);
+
+
+    var axisContainer = chart.append('g')
+        .attr('class', 'axis')
+        .attr('transform', 'translate(0, ' + (yScale(0)) + ')');
 
     // Create the axes
     var xAxis = d3.svg.axis()
@@ -49,7 +50,8 @@
 
     // Add the axes to the chart
     axisContainer
-        .transition().duration(2500)
+        .transition()
+        .duration(2500)
         .call(xAxis);
 
     // Create the bar series
@@ -88,19 +90,17 @@
 
         // Update scale domains
         xScale.domain(data.map(function(d) { return d.name; }));
-        yScale.domain([
-            d3.min(data, function(d) { return d.age; }),
-            d3.max(data, function(d) { return d.age; })
-        ]);
 
         // Update axes
         axisContainer
-            .transition().duration(2500)
+            .transition()
+            .duration(2500)
             .call(xAxis);
 
         // Update bar series
         seriesContainer.datum(data)
-            .transition().duration(2500)
+            .transition()
+            .duration(2500)
             .call(bar);
     }, 5000);
 

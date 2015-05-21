@@ -34,14 +34,13 @@
                         barBottom = yScale(y0),
                         barTop = yScale(y0 + y1Value(d, i));
 
-                    var g = d3.select(this)
-                        .attr('transform', 'translate(' + x + ', ' + barTop + ')');
-
                     pathGenerator.x(d3.functor(0))
                         .y(d3.functor(0))
                         .height(function() { return barBottom - barTop; });
 
-                    g.select('path')
+                    d3.transition(d3.select(this))
+                        .attr('transform', 'translate(' + x + ', ' + barTop + ')')
+                        .select('path')
                         .attr('d', pathGenerator([d]));
                 });
 
