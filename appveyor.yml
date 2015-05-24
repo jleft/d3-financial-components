@@ -29,4 +29,9 @@ test_script:
   - ps: grunt ci --no-color  # PowerShell
   - cmd: grunt ci --no-color
 
+artifacts:
+  - path: visual-tests\dist
+    name: "Visual Tests"
+
 build: off
+deploy: off
