@@ -1,0 +1,3 @@
+general:
+  artifacts:
+    - "visual-tests/dist"
