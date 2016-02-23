@@ -1,15 +1,17 @@
 import axis from './axis';
 import bar from './bar';
-import candlestick from './candlestick';
-import ohlc from './ohlc';
-import errorBar from './errorBar';
 import boxPlot from './boxPlot';
+import candlestick from './candlestick';
+import errorBar from './errorBar';
+import ohlc from './ohlc';
+import polygon from './polygon';
 
 export default {
     axis: axis,
     bar: bar,
+    boxPlot: boxPlot,
     candlestick: candlestick,
-    ohlc: ohlc,
     errorBar: errorBar,
-    boxPlot: boxPlot
+    ohlc: ohlc,
+    polygon: polygon
 };

@@ -1,6 +1,7 @@
 import annotation from './annotation/annotation';
 import chart from './chart/chart';
 import data from './data/data';
+import geom from './geom/geom';
 import indicator from './indicator/indicator';
 import './layout/flexbox'; // import side-effects
 import scale from './scale/scale';
@@ -17,6 +18,7 @@ export default {
     annotation: annotation,
     chart: chart,
     data: data,
+    geom: geom,
     indicator: indicator,
     scale: scale,
     series: series,
