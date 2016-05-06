@@ -76,16 +76,38 @@
         function sort(a, b) { return population(b) - population(a); }
         function colour(d) { return colourScale(d.region); }
 
+        var xScale = d3.scale.log();
+        var yScale = d3.scale.linear();
+
+        var width = 792.5, height = 355;
+        var voronoi = d3.geom.voronoi()
+            .clipExtent([[0, 0], [width, height]])
+            .x(function(d) { return xScale(income(d)); })
+            .y(function(d) { return yScale(lifeExpectancy(d)); });
+
         var point = fc.series.point()
             .xValue(income)
             .yValue(lifeExpectancy)
             .key(name)
             .size(pointArea)
-            .decorate(function(selection) {
+            .decorate(function(selection, data) {
                 selection.enter()
                     .attr('fill', colour)
                     .append('title')
                     .text(name);
+
+                var voronoiData = voronoi(data);
+                var voronoiCells = selection.enter()
+                    .select('path.voronoi-cell')
+                    .data(voronoiData, function(d) {
+                        return d.point.name;
+                    });
+
+                voronoiCells.enter()
+                    .append('path')
+                    .attr('class', 'voronoi-cell');
+
+                voronoiCells.attr('d', function(d) { return 'M' + d.join('L') + 'Z'; });
 
                 // Ensure the points with the smallest population are on top
                 selection.sort(sort);
@@ -94,7 +116,7 @@
         var yearLabel = example.yearLabel()
             .on('yearChange', event.yearChange);
 
-        var cartesianChart = fc.chart.cartesian(d3.scale.log(), d3.scale.linear())
+        var cartesianChart = fc.chart.cartesian(xScale, yScale)
             .xDomain([300, 1e5])
             .yDomain([10, 85])
             .margin({top: 25, right: 25, bottom: 20, left: 30})
