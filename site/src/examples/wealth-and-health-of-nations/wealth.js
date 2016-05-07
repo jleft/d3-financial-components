@@ -96,18 +96,14 @@
                     .append('title')
                     .text(name);
 
+                // TODO: compute voronoi cell on data?
                 var voronoiData = voronoi(data);
-                var voronoiCells = selection.enter()
-                    .select('path.voronoi-cell')
-                    .data(voronoiData, function(d) {
-                        return d.point.name;
-                    });
-
-                voronoiCells.enter()
+                selection.enter()
                     .append('path')
                     .attr('class', 'voronoi-cell');
 
-                voronoiCells.attr('d', function(d) { return 'M' + d.join('L') + 'Z'; });
+                selection.selectAll('.voronoi-cell')
+                    .attr('d', function(d) { return 'M' + d.join('L') + 'Z'; });
 
                 // Ensure the points with the smallest population are on top
                 selection.sort(sort);
