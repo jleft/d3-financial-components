@@ -54,7 +54,7 @@ export default function() {
         var msRemoved = offsetEnd.getTime() - endDate.getTime();
 
         // determine how many weeks there are between these two dates
-        var weeks = (offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek;
+        var weeks = Math.round((offsetEnd.getTime() - offsetStart.getTime()) / millisPerWeek);
 
         return weeks * millisPerWorkWeek + msAdded - msRemoved;
     };
@@ -63,18 +63,16 @@ export default function() {
         var date = isWeekend(startDate) ? skipWeekends.clampUp(startDate) : startDate;
         var remainingms = ms;
 
-        // move to the end of week boundary
-        var endOfWeek = d3.time.saturday.ceil(date);
-        remainingms -= (endOfWeek.getTime() - date.getTime());
+        // move to the end of week boundary for a postive offset or to the start of a week for a negative offset
+        var weekBoundary = remainingms < 0 ? d3.time.monday.floor(date) : d3.time.saturday.ceil(date);
+        remainingms -= (weekBoundary.getTime() - date.getTime());
 
-        // if the distance to the boundary is greater than the number of ms
-        // simply add the ms to the current date
-        if (remainingms < 0) {
+        if ((ms < 0 && remainingms > 0) || (ms > 0 && remainingms < 0)) {
             return new Date(date.getTime() + ms);
         }
 
-        // skip the weekend
-        date = d3.time.day.offset(endOfWeek, 2);
+        // skip the weekend for a positive offset
+        date = ms < 0 ? weekBoundary : d3.time.day.offset(weekBoundary, 2);
 
         // add all of the complete weeks to the date
         var completeWeeks = Math.floor(remainingms / millisPerWorkWeek);
